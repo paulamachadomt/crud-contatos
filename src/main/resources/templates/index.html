@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contatos</title>
+  </head>
+  <body>
+    <h1>Contatos</h1>    
+
+    <div th:if="${listaContatos != null}">
+      <div th:each="contato : ${listaContatos}">
+        <a th:href="@{/detalhes/{id}(id=${contato.id})}" th:text="${contato.nome}"></a>
+        
+        <a th:href="@{/deletar/{id}(id=${contato.id})}">- Deletar</a>
+
+        <a th:href="@{/editar/{id}(id=${contato.id})}">- Editar</a>
+      </div>      
+    </div>
+
+    <a href="/cadastro">Cadastrar novo contato:</a>
+    
+  </body>
+</html>
