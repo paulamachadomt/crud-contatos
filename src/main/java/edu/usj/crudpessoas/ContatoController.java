@@ -79,7 +79,20 @@ public class ContatoController {
         return modelAndView;
     }
 
+    @GetMapping(value="/pesquisar")
+    public String getSelectContato() {
+        return "pesquisar";
+    }
 
+    @PostMapping(value="/pesquisar")
+    public ModelAndView postSelectContato(@RequestParam String nome) {
+        List<Contato> listaContatos = contatoRepository.findByNomeContainingIgnoreCaseOrderByNomeAsc(nome);
+
+        ModelAndView modelAndView = new ModelAndView("pesquisar");
+        modelAndView.addObject("nome", nome);
+        modelAndView.addObject("listaContatos", listaContatos);
+        return modelAndView;
+    }
 }
  
     
