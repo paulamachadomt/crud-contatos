@@ -19,7 +19,7 @@ public class ContatoController {
     ContatoRepository contatoRepository;
 
     @GetMapping(value="/")
-    public ModelAndView getListaContatos() {
+    public ModelAndView readListaContatos() {
         List<Contato> listaContatos = contatoRepository.findAll();
         
         ModelAndView modelAndView = new ModelAndView("index");
@@ -27,25 +27,21 @@ public class ContatoController {
         return modelAndView;
     }
 
-
-
     @GetMapping(value="/detalhes/{id}")
-    public ModelAndView getContatoById(@PathVariable Long id) {
+    public ModelAndView readContatoById(@PathVariable Long id) {
 
         //ler do banco
         Contato contato = contatoRepository.findById(id).get();       
         
-
+        //acrescentar na modelAndView
         ModelAndView modelAndView = new ModelAndView("detalhes");
         modelAndView.addObject("contato", contato);
         return modelAndView;
 
     }
 
-
-
     @GetMapping(value="/cadastro")
-    public ModelAndView getCadastro() {
+    public ModelAndView createContato() {
         Contato contato = new Contato();
         ModelAndView modelAndView = new ModelAndView("cadastro");
         modelAndView.addObject("contato", contato);
@@ -53,40 +49,29 @@ public class ContatoController {
     }
 
 
-    @PostMapping(value="add")
-    public ModelAndView postContato(@RequestParam String nome, @RequestParam String tipo, @RequestParam String telefone) {
+    @PostMapping(value="/adicionar")
+    public String adicionarContato(Contato contato) {
         
-        Contato contato = new Contato();
-        contato.setNome(nome);
-        contato.setTipo(tipo);
-        contato.setTelefone(telefone);
-
         contatoRepository.save(contato);
+        return "redirect:/";
         
-        List<Contato> listaContatos = contatoRepository.findAll();
+        // List<Contato> listaContatos = contatoRepository.findAll();
 
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("listaContatos", listaContatos);
-        return modelAndView;
-
-        // return "redirect:/";
+        // ModelAndView modelAndView = new ModelAndView("index");
+        // modelAndView.addObject("listaContatos", listaContatos);
+        // return modelAndView;       
     }
     
 
-
-
     @GetMapping(value="/deletar/{id}")
-    public String deletarContatoById(@PathVariable Long id) {
-        contatoRepository.deleteById(id);     
-        
+    public String deleteContatoById(@PathVariable Long id) {
+        contatoRepository.deleteById(id);             
         return "redirect:/";  
     }
 
 
-
-
     @GetMapping(value="/editar/{id}")
-    public ModelAndView editarContatoById(@PathVariable Long id) {
+    public ModelAndView updateContatoById(@PathVariable Long id) {
         Contato contato = contatoRepository.findById(id).get();
 
         ModelAndView modelAndView = new ModelAndView("cadastro");
@@ -96,5 +81,5 @@ public class ContatoController {
 
 
 }
-
+ 
     
